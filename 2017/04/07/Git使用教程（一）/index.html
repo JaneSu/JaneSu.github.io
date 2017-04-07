@@ -99,7 +99,7 @@
 安装Git我是下载的Github的桌面版，同时包括一个可视化的github和一个命令行使用工具Git shell。
 下载地址：Github desktop
 这个软件的好处是提供除了命令行之外，其他的使用github的方法，可以说是十分适合初次使用者。之后熟悉git的操作之后可以学习命令行的使用。不过，由于GFW的存在，该软件的安装需要有vpn帮助,">
-<meta property="og:updated_time" content="2017-04-07T12:57:01.000Z">
+<meta property="og:updated_time" content="2017-04-07T13:09:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git使用教程（一）">
 <meta name="twitter:description" content="我会分几篇记录一下学习个git的过程，加深记忆。
@@ -387,7 +387,10 @@
 <h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><p>我是下载的Github的桌面版，同时包括一个可视化的github和一个命令行使用工具<code>Git shell</code>。</p>
 <p>下载地址：<a href="https://desktop.github.com/" target="_blank" rel="external">Github desktop</a></p>
 <p>这个软件的好处是提供除了命令行之外，其他的使用github的方法，可以说是十分适合初次使用者。之后熟悉git的操作之后可以学习命令行的使用。不过，由于GFW的存在，该软件的安装需要有<code>vpn</code>帮助,即便如此，还是很容易失败。</p>
-<p>按照上述方式安装Github，ssh key</p>
+<p>按照上述方式安装Github，<code>ssh key</code>不需要再另外添加。</p>
+<p>如果通过其他方式安装的git，则需要在安装完成之后做以下几步：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 设置账户</div><div class="line">git config --global user.name &quot;用户名&quot;</div><div class="line">git config --global user.email &quot;邮箱地址&quot;</div><div class="line">// 获取ssk</div><div class="line">ssh-keygen -t rsa -C &quot;邮箱地址&quot;</div></pre></td></tr></table></figure>
+<p>然后打开网页版的github，将<code>.ssh</code>文件夹里的<code>id_rsa.pub</code>的内容粘贴至github设置里的<code>SSH and GPG keys</code>，这样本地和你的github就建立好联系了。</p>
 
       
     </div>
