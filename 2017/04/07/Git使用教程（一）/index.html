@@ -87,25 +87,21 @@
 
 
 
-<meta name="description" content="我会分几篇记录一下学习个git的过程，加深记忆。
-安装Git我是下载的Github的桌面版，同时包括一个可视化的github和一个命令行使用工具Git shell。
-下载地址：Github desktop
-这个软件的好处是提供除了命令行之外，其他的使用github的方法，可以说是十分适合初次使用者。之后熟悉git的操作之后可以学习命令行的使用。不过，由于GFW的存在，该软件的安装需要有vpn帮助,">
+<meta name="description" content="本文会讲一些Git的基础知识，以及简单的使用。后续的博客会继续深入下去。我尽量不去重复网上已有的内容，而是写出自己的理解。
+什么是GitGit是一种版本控制系统，和其他大多数版本控制系统相比，Git是分布式的，优点是速度更快，信息保存的更安全。同时，git的使用并不必须借助于网络，离线的情况下依旧可以使用，这得益于初始化git时，会在当前项目的根目录创建一个.git的目录，这里面会保存所有关于gi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git使用教程（一）">
+<meta property="og:title" content="Git入门（一）：git的介绍和简单使用">
 <meta property="og:url" content="https://janesu.github.io/2017/04/07/Git使用教程（一）/index.html">
 <meta property="og:site_name" content="青青子衿">
-<meta property="og:description" content="我会分几篇记录一下学习个git的过程，加深记忆。
-安装Git我是下载的Github的桌面版，同时包括一个可视化的github和一个命令行使用工具Git shell。
-下载地址：Github desktop
-这个软件的好处是提供除了命令行之外，其他的使用github的方法，可以说是十分适合初次使用者。之后熟悉git的操作之后可以学习命令行的使用。不过，由于GFW的存在，该软件的安装需要有vpn帮助,">
-<meta property="og:updated_time" content="2017-04-07T13:09:01.000Z">
+<meta property="og:description" content="本文会讲一些Git的基础知识，以及简单的使用。后续的博客会继续深入下去。我尽量不去重复网上已有的内容，而是写出自己的理解。
+什么是GitGit是一种版本控制系统，和其他大多数版本控制系统相比，Git是分布式的，优点是速度更快，信息保存的更安全。同时，git的使用并不必须借助于网络，离线的情况下依旧可以使用，这得益于初始化git时，会在当前项目的根目录创建一个.git的目录，这里面会保存所有关于gi">
+<meta property="og:image" content="http://onsmpwfeh.bkt.clouddn.com/14925039505376.jpg">
+<meta property="og:updated_time" content="2017-04-18T10:53:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git使用教程（一）">
-<meta name="twitter:description" content="我会分几篇记录一下学习个git的过程，加深记忆。
-安装Git我是下载的Github的桌面版，同时包括一个可视化的github和一个命令行使用工具Git shell。
-下载地址：Github desktop
-这个软件的好处是提供除了命令行之外，其他的使用github的方法，可以说是十分适合初次使用者。之后熟悉git的操作之后可以学习命令行的使用。不过，由于GFW的存在，该软件的安装需要有vpn帮助,">
+<meta name="twitter:title" content="Git入门（一）：git的介绍和简单使用">
+<meta name="twitter:description" content="本文会讲一些Git的基础知识，以及简单的使用。后续的博客会继续深入下去。我尽量不去重复网上已有的内容，而是写出自己的理解。
+什么是GitGit是一种版本控制系统，和其他大多数版本控制系统相比，Git是分布式的，优点是速度更快，信息保存的更安全。同时，git的使用并不必须借助于网络，离线的情况下依旧可以使用，这得益于初始化git时，会在当前项目的根目录创建一个.git的目录，这里面会保存所有关于gi">
+<meta name="twitter:image" content="http://onsmpwfeh.bkt.clouddn.com/14925039505376.jpg">
 
 
 
@@ -139,7 +135,7 @@
 
 
 
-  <title> Git使用教程（一） | 青青子衿 </title>
+  <title> Git入门（一）：git的介绍和简单使用 | 青青子衿 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -299,7 +295,7 @@
             
             
               
-                Git使用教程（一）
+                Git入门（一）：git的介绍和简单使用
               
             
           </h1>
@@ -383,14 +379,69 @@
       
 
       
-        <p>我会分几篇记录一下学习个git的过程，加深记忆。</p>
-<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><p>我是下载的Github的桌面版，同时包括一个可视化的github和一个命令行使用工具<code>Git shell</code>。</p>
-<p>下载地址：<a href="https://desktop.github.com/" target="_blank" rel="external">Github desktop</a></p>
-<p>这个软件的好处是提供除了命令行之外，其他的使用github的方法，可以说是十分适合初次使用者。之后熟悉git的操作之后可以学习命令行的使用。不过，由于GFW的存在，该软件的安装需要有<code>vpn</code>帮助,即便如此，还是很容易失败。</p>
-<p>按照上述方式安装Github，<code>ssh key</code>不需要再另外添加。</p>
-<p>如果通过其他方式安装的git，则需要在安装完成之后做以下几步：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 设置账户</div><div class="line">git config --global user.name &quot;用户名&quot;</div><div class="line">git config --global user.email &quot;邮箱地址&quot;</div><div class="line">// 获取ssk</div><div class="line">ssh-keygen -t rsa -C &quot;邮箱地址&quot;</div></pre></td></tr></table></figure>
-<p>然后打开网页版的github，将<code>.ssh</code>文件夹里的<code>id_rsa.pub</code>的内容粘贴至github设置里的<code>SSH and GPG keys</code>，这样本地和你的github就建立好联系了。</p>
+        <p>本文会讲一些Git的基础知识，以及简单的使用。后续的博客会继续深入下去。我尽量不去重复网上已有的内容，而是写出自己的理解。</p>
+<h1 id="什么是Git"><a href="#什么是Git" class="headerlink" title="什么是Git"></a>什么是Git</h1><p>Git是一种版本控制系统，和其他大多数版本控制系统相比，Git是分布式的，优点是速度更快，信息保存的更安全。同时，git的使用并不必须借助于网络，离线的情况下依旧可以使用，这得益于初始化git时，会在当前项目的根目录创建一个<code>.git</code>的目录，这里面会保存所有关于git的操作信息。可以将其理解成一个人的档案，档案中会有一个人生平各种信息的记录，通过档案就能了解一个人，而git往往能做的更多。</p>
+<p>既然是版本管理，必然会有历史回溯的问题，如何回到自己的某一次提交呢？简单而言，每一次的提交都会产生一个独属于该版本的号码，就像是一个“标签”，就是通过这个“标签”索引你需要的内容。而这个‘标签’是由40个十六进制字符（0-9和a-f）组成的字符串，这个叫<strong>SHA-1 散列（哈希）</strong>。</p>
+<p>git的工作原理很容易理解，但在这之前，要先知道git的各种状态，也就是该步操作处于整个流程的什么阶段。</p>
+<blockquote>
+<p>Git 有三种状态，你的文件可能处于其中之一：已提交（committed）、已修改（modified）和已暂存（staged）。已提交表示数据已经安全的保存在本地数据库中。已修改表示修改了文件，但还没保存到数据库中。已暂存表示对一个已修改文件的当前版本做了标记，使之包含在下次提交的快照中。</p>
+</blockquote>
+<p>这里说的是git的三种状态；但同时git也有工作区域之分，分别是<strong>Git仓库</strong>、<strong>工作目录</strong>、<strong>暂存区域</strong>。</p>
+<p>他们之间的关系可以用一张图说明：</p>
+<p><img src="http://onsmpwfeh.bkt.clouddn.com/14925039505376.jpg" alt=""></p>
+<blockquote>
+<ul>
+<li>Git 仓库目录是 Git 用来保存项目的元数据和对象数据库的地方。这是 Git 中最重要的部分，从其它计算机克隆仓库时，拷贝的就是这里的数据。</li>
+<li>工作目录是对项目的某个版本独立提取出来的内容。这些从 Git 仓库的压缩数据库中提取出来的文件，放在磁盘上供你使用或修改。</li>
+<li>暂存区域是一个文件，保存了下次将提交的文件列表信息，一般在 Git 仓库目录中。有时候也被称作`‘索引’’，不过一般说法还是叫暂存区域。</li>
+</ul>
+</blockquote>
+<p>我理解的是，Git仓库目录就是前面说到的<code>.git</code>记录的当前项目的信息，而工作目录是当前进行操作的项目文件夹（<code>.git</code>就存在该文件夹内），而暂存区是对项目文件的一次扫描记录，包含你修改了哪些内容，在下次提交。</p>
+<p>对于这里的各种名词不用太纠结，我初次看的时候也是很困惑，但是实际使用过程中就能理解这里说的是什么了。</p>
+<h1 id="git的简单使用"><a href="#git的简单使用" class="headerlink" title="git的简单使用"></a>git的简单使用</h1><p>git的基础介绍就到此为止，我讲的并不全面，以后我再有深入的理解或是看到新内容需要补充，我会在添加进来。</p>
+<p>接下来的内容是关于git的安装和入门的使用，不会有特别难的部分，因为我目前用的也不是太多，接下来的部分会在以后的博文里慢慢说的。</p>
+<h2 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h2><p>要说安装之前，先要弄清楚git有几种形式。得益于苹果推出的图形界面，接下来的计算机发展都是按照这个路数来的，不像最早的Dos命令行，初学者不用记住各种各样的命令，直观的简化了操作难度，因此在git的使用方面也分为两派：<code>GUI</code>和<code>命令行</code>。</p>
+<p>Git可以在这里进行下载：<a href="https://git-scm.com/" target="_blank" rel="external">git下载</a>。</p>
+<p>不过我当初采用的是另一种方法，安装<a href="https://desktop.github.com/" target="_blank" rel="external">GitHub Desktop</a>.这个的优点是同时会安装两套程序，一个是我们常见的图形操作界面，另一种是具有命令行作用的<code>git shell</code>。所以这个完全看使用者，我最初觉得命令行麻烦，并且当时对于git的使用完全是依赖于Github，因此前者完全能满足我的需求，但是后来安装这个博客，同时使用gulp，命令行的重要性就凸显出来了，并且，我现在觉得命令行非常好用，能提供的功能也比GUI多。</p>
+<p>那我就按照命令行的使用来介绍吧。</p>
+<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><p>安装完成之后，需要设置全局的用户名和邮箱：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --global user.name &apos;your name&apos;</div><div class="line">git config --global user.email &apos;your email address&apos;</div></pre></td></tr></table></figure>
+<p>如果你只是使用本地的git，拿到这里就可以了，但事实上很多人还是会将本地的项目和远程的github仓库联系起来，这样就还需要让远程仓库明白本地和他之间的联系，这就需要一把“钥匙”，这把“钥匙”就是<code>ssh</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C &quot;邮箱地址&quot;</div></pre></td></tr></table></figure>
+<p>这一步会在电脑根目录里的<code>ssh</code>文件夹内生成一个<code>id_rsa.pub</code>文件，拷贝其内容，粘贴纸Github网页版–&gt;settings–&gt;ssh and gpg keys,点击右上角的<code>New SSH key</code>,粘贴，这样就在本地和你远程的仓库之间建立了联系。</p>
+<h2 id="初始化git"><a href="#初始化git" class="headerlink" title="初始化git"></a>初始化git</h2><p>通过命令行进入当前的项目文件夹，执行命令：</p>
+<pre><code>git init
+</code></pre><p>这样就会在该项目创建<code>.git</code>用来记录所有操作。</p>
+<h2 id="几种简单的命令"><a href="#几种简单的命令" class="headerlink" title="几种简单的命令"></a>几种简单的命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">touch &lt;filename&gt;//创建一个文件</div><div class="line">cat &lt;filename&gt; //打开一个文件</div><div class="line">vi &lt;filename&gt; //编辑一个文件</div><div class="line">mkdir &lt;filename&gt; //创建一个文件夹</div></pre></td></tr></table></figure>
+<h2 id="添加和提交"><a href="#添加和提交" class="headerlink" title="添加和提交"></a>添加和提交</h2><p>这是本文的重点，好在git的常见操作其实不多，难的在于这些操作延伸出去的部分，但是这里并不会对这一部分有所涉及，都是后话。</p>
+<p>还记得前面讲到的git的几种状态么？已提交，已修改，已暂存。这里面<code>已修改</code>指的是对当前项目文件的一种修改，不涉及操作，所以主要是另外两种状态。</p>
+<p>当你添加，修改，删除完文件之后，执行命令：</p>
+<pre><code>git add &lt;fileName&gt;
+</code></pre><p>比如说，当前文件内有一个<code>readme.md</code>文件，则：</p>
+<pre><code>git add readme.md
+</code></pre><p>如果是添加<code>css</code>路径下的所有文件，则：</p>
+<pre><code>git add /css
+</code></pre><p>如果嫌麻烦，可以通过下面的命令一次添加所有文件：</p>
+<pre><code>git add .
+</code></pre><p>这里需要对<code>git add</code>做一个说明，这一命令具有两种效用：</p>
+<ol>
+<li>将新添加的文件或是文件夹加入到暂存区</li>
+<li>将本地修改的内容添加到暂存区</li>
+</ol>
+<p>因此不论做什么，<code>git add</code>都是git命令的第一步。</p>
+<p>将文件添加到暂存区之后，就是提交：</p>
+<pre><code>git commit -m“description”
+</code></pre><p><code>description</code>是对当前提交版本的一种描述，以备以后回退版本时你知道你做了什么，否则就是一团乱麻。</p>
+<h2 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h2><p>进行了添加或是修改的操作之后，如果想查看当前处于什么状态也是可以做到的，比如说修改了readme.md里的内容，但是没有执行添加操作，执行</p>
+<pre><code>git status
+</code></pre><p>会看到以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git statusOn branch masterChanges to be committed:    (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)    new file: READMEChanges not staged for commit:    (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)    (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</div><div class="line">    modified: CONTRIBUTING.md</div></pre></td></tr></table></figure>
+<p>可以看到<code>Changes to be committed</code>下面出现的内容，表示当前做的修改还没有被添加到暂存区。这只是一种情况，其他的也很类似，只是表述的语言可能不太一样，所以在这里我就不多说了。</p>
+<h2 id="查看差异"><a href="#查看差异" class="headerlink" title="查看差异"></a>查看差异</h2><p>除了上述说到的查看文件的状态，还有一种情况是你想知道更具体的，比如说你这两次修改，或是工作目录和已暂存文件之间的差异，则可以执行这个命令：</p>
+<pre><code>git diff
+</code></pre><p>如果是你想知道已经暂存的文件将要添加到下次提交里的内容，可以执行：</p>
+<pre><code>git diff --staged
+</code></pre><p>这里有一个小坑，可能会有这样的情况，运行了<code>git diff</code>之后却是毫无显示，不要急，这不是问题，而是没弄明白<code>diff</code>这个行为的含义。这个命令的根本是告诉你你已经修改了工作区的文件，和之前暂存的暂存区的文件的差异，如果都已经添加到了暂存区，那就不存在已修改未暂存的文件，自然也就不会有两者之间的差异。</p>
 
       
     </div>
@@ -582,7 +633,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Git"><span class="nav-number">1.</span> <span class="nav-text">安装Git</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Git"><span class="nav-number">1.</span> <span class="nav-text">什么是Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git的简单使用"><span class="nav-number">2.</span> <span class="nav-text">git的简单使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装git"><span class="nav-number">2.1.</span> <span class="nav-text">安装git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置"><span class="nav-number">2.2.</span> <span class="nav-text">设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化git"><span class="nav-number">2.3.</span> <span class="nav-text">初始化git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几种简单的命令"><span class="nav-number">2.4.</span> <span class="nav-text">几种简单的命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加和提交"><span class="nav-number">2.5.</span> <span class="nav-text">添加和提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看状态"><span class="nav-number">2.6.</span> <span class="nav-text">查看状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看差异"><span class="nav-number">2.7.</span> <span class="nav-text">查看差异</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -731,7 +782,7 @@
         var disqus_config = function () {
           this.page.url = 'https://janesu.github.io/2017/04/07/Git使用教程（一）/';
           this.page.identifier = '2017/04/07/Git使用教程（一）/';
-          this.page.title = 'Git使用教程（一）';
+          this.page.title = 'Git入门（一）：git的介绍和简单使用';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://janesu.disqus.com/embed.js';
