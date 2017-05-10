@@ -105,7 +105,7 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
 在学习这个概念的过程中一直都有点疑惑，写出来整理下思路。首先是为什么要区分这个概念，就连我一开始都不是很重视这个内容，现在看来，这个涉及引擎对于变量的查询结果以及随之会出现的报错。
 
 为什么区分LHS和RHS是一件重要的事情？因为在变量还没有声明的情况下，这两种查询的行为是不一样的。">
-<meta property="og:updated_time" content="2017-05-10T09:34:56.000Z">
+<meta property="og:updated_time" content="2017-05-10T14:39:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LHS和RHS">
 <meta name="twitter:description" content="基本概念：
@@ -412,7 +412,7 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
 <p>而<code>b=10</code>和<code>a=10</code>中的数字就是RHS，意味着得到变量a或是变量B的源值。</p>
 <p>做一个比喻，LHS是债主，RHS是负债人，当负债人向债主还钱的时候，如果债主不在，完全可以交给和债主相关的一个人（这个人可以代表债主），但如果债主要债找不到负债人，自然就会报警（报错）。</p>
 <p>不过有个例外，ES5中引入了严格模式，在这个模式下，如果变量未被提前生明，那么就不可以隐式的创建这个变量。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 事例5</span></div><div class="line"><span class="meta">'use strict'</span></div><div class="line">c = <span class="number">10</span>;</div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//ReferenceError</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 事例5</span></div><div class="line"><span class="meta">'use strict'</span></div><div class="line">c = <span class="number">10</span>;</div><div class="line"><span class="built_in">console</span>.log(c);<span class="comment">//ReferenceError</span></div></pre></td></tr></table></figure>
 <blockquote>
 <p>同正常模式，或者说宽松/懒惰模式相比，严格模式在行为上有很多不同，其中一个特点就是严格模式禁止自动或隐式的创建全局变量。</p>
 </blockquote>
@@ -554,7 +554,7 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
