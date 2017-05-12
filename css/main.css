@@ -1189,7 +1189,7 @@ pre .javascript .function {
   border: 1px solid #ddd;
 }
 .posts-expand .fancybox img {
-  margin: 0 auto !important;
+  margin: 0 auto;
 }
 @media (max-width: 767px) {
   .posts-collapse {
@@ -1691,7 +1691,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #137439;
+  background: #ff06ff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2780,9 +2780,9 @@ hr {
   }
 }
 .post-copyright {
-    margin: 2em 0 0;
-    padding: 0.5em 1em;
-    border-left: 3px solid #ff1700;
-    background-color: #f9f9f9;
-    list-style: none;
+  margin: 2em 0 0;
+  padding: 0.5em 1em;
+  border-left: 3px solid #ff1700;
+  background-color: #f9f9f9;
+  list-style: none;
 }
