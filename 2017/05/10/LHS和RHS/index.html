@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,34 +87,16 @@
 
 
 
-<meta name="description" content="基本概念：
-
-LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
-
-在学习这个概念的过程中一直都有点疑惑，写出来整理下思路。首先是为什么要区分这个概念，就连我一开始都不是很重视这个内容，现在看来，这个涉及引擎对于变量的查询结果以及随之会出现的报错。
-
-为什么区分LHS和RHS是一件重要的事情？因为在变量还没有声明的情况下，这两种查询的行为是不一样的。">
+<meta name="description" content="该篇博客不存在">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LHS和RHS">
+<meta property="og:title" content="该篇博客不存在">
 <meta property="og:url" content="https://janesu.github.io/2017/05/10/LHS和RHS/index.html">
 <meta property="og:site_name" content="青青子衿">
-<meta property="og:description" content="基本概念：
-
-LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
-
-在学习这个概念的过程中一直都有点疑惑，写出来整理下思路。首先是为什么要区分这个概念，就连我一开始都不是很重视这个内容，现在看来，这个涉及引擎对于变量的查询结果以及随之会出现的报错。
-
-为什么区分LHS和RHS是一件重要的事情？因为在变量还没有声明的情况下，这两种查询的行为是不一样的。">
-<meta property="og:updated_time" content="2017-05-10T15:07:13.000Z">
+<meta property="og:description" content="该篇博客不存在">
+<meta property="og:updated_time" content="2017-07-26T19:07:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LHS和RHS">
-<meta name="twitter:description" content="基本概念：
-
-LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
-
-在学习这个概念的过程中一直都有点疑惑，写出来整理下思路。首先是为什么要区分这个概念，就连我一开始都不是很重视这个内容，现在看来，这个涉及引擎对于变量的查询结果以及随之会出现的报错。
-
-为什么区分LHS和RHS是一件重要的事情？因为在变量还没有声明的情况下，这两种查询的行为是不一样的。">
+<meta name="twitter:title" content="该篇博客不存在">
+<meta name="twitter:description" content="该篇博客不存在">
 
 
 
@@ -148,7 +130,7 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
 
 
 
-  <title> LHS和RHS | 青青子衿 </title>
+  <title> 该篇博客不存在 | 青青子衿 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -308,7 +290,7 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
             
             
               
-                LHS和RHS
+                该篇博客不存在
               
             
           </h1>
@@ -333,28 +315,6 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -392,37 +352,7 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
       
 
       
-        <p>基本概念：</p>
-<blockquote>
-<p>LHS:left-hand-side(左查找)<br>RHS:right-hand-side(右查找)</p>
-</blockquote>
-<p>在学习这个概念的过程中一直都有点疑惑，写出来整理下思路。首先是为什么要区分这个概念，就连我一开始都不是很重视这个内容，现在看来，这个涉及引擎对于变量的查询结果以及随之会出现的报错。</p>
-<blockquote>
-<p>为什么区分LHS和RHS是一件重要的事情？<br>因为在变量还没有声明的情况下，这两种查询的行为是不一样的。</p>
-</blockquote>
-<p>为了很好的理解上面这段话，可以看这样的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 事例1</span></div><div class="line"><span class="built_in">console</span>.log(a); <span class="comment">//undefined</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</div><div class="line"></div><div class="line"><span class="comment">// 事例2</span></div><div class="line"><span class="built_in">console</span>.log(b); <span class="comment">//ReferenceError</span></div><div class="line">b = <span class="number">10</span>;</div></pre></td></tr></table></figure>
-<p>在事例1中，由于变量提升，变量a被声明但未赋值，因此实际的过程是这样的：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 事例3</span></div><div class="line"><span class="keyword">var</span> a = <span class="literal">undefined</span>;</div><div class="line"><span class="built_in">console</span>.log(a);</div><div class="line">a = <span class="number">10</span>;</div></pre></td></tr></table></figure>
-<p>事例2中，系统抛出了错误<code>ReferenceError</code>,之所以会这样，是因为变量b并未被提前声明，在全局作用域中找不到该变量，就会出错。要是我们稍微改动一下会怎么样呢？</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 事例4</span></div><div class="line">b = <span class="number">10</span>;</div><div class="line"><span class="built_in">console</span>.log(b); <span class="comment">//10;</span></div></pre></td></tr></table></figure>
-<p>是不是会好奇发生了什么呀，其实很简单，先对变量b进行赋值操作，但是在查询全局作用域后发现没有变量b的存在，那怎么办呢？创建一个变量b。这种创建是隐式的。</p>
-<p>那好，代码就这些，可是我好想也没有讲到这和LHS,RHS有什么关系，别急，接下来就说。</p>
-<p>LHS和RHS，顾名思义一个是左边，一个是右边，而这个左和右是依靠<code>=</code>做出判断。在事例3和事例4中，对变量a和b的声明就是LHS(做查询)，他的含义就是在当前作用域（目前是全局作用域）查找这个变量是否存在，如果不存在就创建该变量，然后继续下一步。</p>
-<p>而<code>b=10</code>和<code>a=10</code>中的数字就是RHS，意味着得到变量a或是变量b的源值。</p>
-<p>做一个比喻，LHS是债主，RHS是负债人，当负债人向债主还钱的时候，如果债主不在，完全可以交给和债主相关的一个人（这个人可以代表债主），但如果债主要债找不到负债人，自然就会报警（报错）。</p>
-<p>不过有个例外，ES5中引入了严格模式，在这个模式下，如果变量未被提前声明，那么就不可以隐式的创建这个变量。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 事例5</span></div><div class="line"><span class="meta">'use strict'</span></div><div class="line">c = <span class="number">10</span>;</div><div class="line"><span class="built_in">console</span>.log(c);<span class="comment">//ReferenceError</span></div></pre></td></tr></table></figure>
-<blockquote>
-<p>同正常模式，或者说宽松/懒惰模式相比，严格模式在行为上有很多不同，其中一个特点就是严格模式禁止自动或隐式的创建全局变量。</p>
-</blockquote>
-<hr>
-<p><strong>总结</strong></p>
-<p>如果查找的目的是对变量进行赋值，那么就会使用LHS查询。</p>
-<p>如果目的是获取变量的值，就会只用RHS查询。</p>
-<p><strong>备注</strong></p>
-<p><code>ReferenceError</code>和作用域判别失败有关。</p>
-<p><code>TypeError</code>是表示作用域判别成功，但是对结果的操作是非法或是不合理的。</p>
+        <p>该篇博客不存在</p>
 
       
     </div>
@@ -436,7 +366,7 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
             </li>
             <li class="post-copyright-link">
               <strong>本文链接：</strong>
-              <a href="/2017/05/10/LHS和RHS/" title="LHS和RHS">2017/05/10/LHS和RHS/</a>
+              <a href="/2017/05/10/LHS和RHS/" title="该篇博客不存在">2017/05/10/LHS和RHS/</a>
             </li>
             <li class="post-copyright-license">
               <strong>版权声明： </strong>
@@ -468,12 +398,6 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
     </div>
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          
-        </div>
       
 
       
@@ -776,7 +700,7 @@ LHS:left-hand-side(左查找)RHS:right-hand-side(右查找)
         var disqus_config = function () {
           this.page.url = 'https://janesu.github.io/2017/05/10/LHS和RHS/';
           this.page.identifier = '2017/05/10/LHS和RHS/';
-          this.page.title = 'LHS和RHS';
+          this.page.title = '该篇博客不存在';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://janesu.disqus.com/embed.js';
