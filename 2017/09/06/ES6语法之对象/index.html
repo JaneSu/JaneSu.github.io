@@ -107,7 +107,7 @@ assign方法
 
 一个一个来说吧。
 is方法1234console.log(Object.is([1, 2, 3], [1, 2, 3])) //falseconsole.log([1, 2, 3] === [1, 2, 3]) //falseconsole.log(Obje">
-<meta property="og:updated_time" content="2017-09-06T15:07:50.000Z">
+<meta property="og:updated_time" content="2017-09-06T15:09:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6语法之对象">
 <meta name="twitter:description" content="正好用到一些es6中的对象语法，觉得很简洁，整理一篇笔记出来。
@@ -416,7 +416,7 @@ is方法1234console.log(Object.is([1, 2, 3], [1, 2, 3])) //falseconsole.log([1, 
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.assign(&#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">b</span>: <span class="number">2</span></div><div class="line">&#125;, &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">10</span>,</div><div class="line">    <span class="attr">c</span>: <span class="number">3</span>,</div><div class="line">    <span class="attr">d</span>: <span class="number">4</span></div><div class="line">&#125;)) <span class="comment">// &#123; a: 10, b: 2, c: 3, d: 4 &#125;</span></div></pre></td></tr></table></figure>
 <p>结果很明显了，<code>obj2</code>里的键值对会覆盖<code>obj1</code>里面的。</p>
 <p>另外需要强调一点，assign方式是浅拷贝。深浅拷贝的区别就自己查吧（因为我也不太清楚，叹气）。</p>
-<h1 id="2-简介表示法"><a href="#2-简介表示法" class="headerlink" title="2.简介表示法"></a>2.简介表示法</h1><p>es6语法里，除了扩展的方法，更让人喜欢的其实是简化的语法，更简洁明了。这个就是如此。举个例子。</p>
+<h1 id="2-简洁表示法"><a href="#2-简洁表示法" class="headerlink" title="2.简洁表示法"></a>2.简洁表示法</h1><p>es6语法里，除了扩展的方法，更让人喜欢的其实是简化的语法，更简洁明了。这个就是如此。举个例子。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = <span class="string">'a'</span>,</div><div class="line">    b = <span class="string">'b'</span>;</div><div class="line"><span class="keyword">let</span> obj_es5 = &#123;</div><div class="line">    <span class="attr">a</span>: a,</div><div class="line">    <span class="attr">b</span>: b</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> obj_es6 = &#123;</div><div class="line">    a, b</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(obj_es5, obj_es6) <span class="comment">// &#123; a: 'a', b: 'b' &#125; &#123; a: 'a', b: 'b' &#125;</span></div></pre></td></tr></table></figure>
 <p><code>obj_es5</code>是es5语法创建的对象，<code>obj_es6</code>是es6语法创建的对象。感觉，可以说结果一目了然吧。</p>
 <p>除了这种单纯的对象，对象里的方法也有简化。</p>
@@ -630,7 +630,7 @@ is方法1234console.log(Object.is([1, 2, 3], [1, 2, 3])) //falseconsole.log([1, 
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-obj扩展方法"><span class="nav-number">1.</span> <span class="nav-text">1.obj扩展方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#is方法"><span class="nav-number">1.1.</span> <span class="nav-text">is方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assign方法"><span class="nav-number">1.2.</span> <span class="nav-text">assign方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-简介表示法"><span class="nav-number">2.</span> <span class="nav-text">2.简介表示法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-属性表达式"><span class="nav-number">3.</span> <span class="nav-text">3.属性表达式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-obj扩展方法"><span class="nav-number">1.</span> <span class="nav-text">1.obj扩展方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#is方法"><span class="nav-number">1.1.</span> <span class="nav-text">is方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assign方法"><span class="nav-number">1.2.</span> <span class="nav-text">assign方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-简洁表示法"><span class="nav-number">2.</span> <span class="nav-text">2.简洁表示法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-属性表达式"><span class="nav-number">3.</span> <span class="nav-text">3.属性表达式</span></a></li></ol></div>
             
 
           </div>
