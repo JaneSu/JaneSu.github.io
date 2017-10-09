@@ -1,0 +1,855 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="canvas," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近上手了canvas，正好看见一个知乎粒子束的实现，觉得蛮有意思的，自己就照着做了一遍。原效果是用es6实现的，我这篇文章也就用es6的语法讲了，但是可能有些人对es6的语法不熟悉，我又用es5的语法写了一遍，一方面加深理解，一方面也可以练习一下es5继承的实现，这些都放在仓库里了，可以根据需要自己查看。
+
+仓库地址效果地址
+
+整体框架这个效果大体可以分为两个部分：
+
+进入页面初始化粒子束
+当鼠">
+<meta property="og:type" content="article">
+<meta property="og:title" content="知乎粒子束的实现">
+<meta property="og:url" content="https://janesu.github.io/2017/10/09/知乎粒子束的实现/index.html">
+<meta property="og:site_name" content="青青子衿">
+<meta property="og:description" content="最近上手了canvas，正好看见一个知乎粒子束的实现，觉得蛮有意思的，自己就照着做了一遍。原效果是用es6实现的，我这篇文章也就用es6的语法讲了，但是可能有些人对es6的语法不熟悉，我又用es5的语法写了一遍，一方面加深理解，一方面也可以练习一下es5继承的实现，这些都放在仓库里了，可以根据需要自己查看。
+
+仓库地址效果地址
+
+整体框架这个效果大体可以分为两个部分：
+
+进入页面初始化粒子束
+当鼠">
+<meta property="og:updated_time" content="2017-10-09T10:57:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="知乎粒子束的实现">
+<meta name="twitter:description" content="最近上手了canvas，正好看见一个知乎粒子束的实现，觉得蛮有意思的，自己就照着做了一遍。原效果是用es6实现的，我这篇文章也就用es6的语法讲了，但是可能有些人对es6的语法不熟悉，我又用es5的语法写了一遍，一方面加深理解，一方面也可以练习一下es5继承的实现，这些都放在仓库里了，可以根据需要自己查看。
+
+仓库地址效果地址
+
+整体框架这个效果大体可以分为两个部分：
+
+进入页面初始化粒子束
+当鼠">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://janesu.github.io/2017/10/09/知乎粒子束的实现/"/>
+
+
+
+
+
+  <title> 知乎粒子束的实现 | 青青子衿 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">青青子衿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://janesu.github.io/2017/10/09/知乎粒子束的实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JaneSu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青青子衿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                知乎粒子束的实现
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-09T17:15:44+08:00">
+                2017-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/09/知乎粒子束的实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/10/09/知乎粒子束的实现/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近上手了canvas，正好看见一个知乎粒子束的实现，觉得蛮有意思的，自己就照着做了一遍。原效果是用es6实现的，我这篇文章也就用es6的语法讲了，但是可能有些人对es6的语法不熟悉，我又用es5的语法写了一遍，一方面加深理解，一方面也可以练习一下es5继承的实现，这些都放在仓库里了，可以根据需要自己查看。</p>
+<blockquote>
+<p><a href="https://github.com/JaneSu/zhihu_canvas" target="_blank" rel="external">仓库地址</a><br><a href="http://janesu.me/zhihu_canvas/zhihu/index.html" target="_blank" rel="external">效果地址</a></p>
+</blockquote>
+<h1 id="整体框架"><a href="#整体框架" class="headerlink" title="整体框架"></a>整体框架</h1><p>这个效果大体可以分为两个部分：</p>
+<ol>
+<li>进入页面初始化粒子束</li>
+<li>当鼠标进入页面，在当前坐标画一个圆，并和初始化的效果进行交互。</li>
+</ol>
+<p>具体效果是：</p>
+<ol>
+<li>在页面随机位置画圆</li>
+<li>圆以一定的速度在页面移动</li>
+<li>当两个圆靠近时，链接一条线</li>
+</ol>
+<p>分析完需求之后，无论是初始化还是鼠标的交互，都离不开下面那三种具体的效果。唯一不同的地方在于，当鼠标进入页面的时候，圆圈产生的位置不是固定的，而是以鼠标的坐标为准，因此这个方法对于鼠标的行为来说是独立的。因此，最开始的结构就可以这样写：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span></span>&#123;</div><div class="line"><span class="comment">// 父类</span></div><div class="line"></div><div class="line">    <span class="comment">// Circle的构造函数</span></div><div class="line">    <span class="keyword">constructor</span>() &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="comment">//以下是circle原型上的方法</span></div><div class="line">    <span class="comment">//方法1 画圆</span></div><div class="line">    drawCircle()&#123;&#125;</div><div class="line">    </div><div class="line">    <span class="comment">//方法2 移动</span></div><div class="line">    move()&#123;&#125;</div><div class="line">    </div><div class="line">    <span class="comment">//方法3 连线</span></div><div class="line">    drawLine()&#123;&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">currentCircle</span> <span class="keyword">extends</span> <span class="title">Circle</span></span>&#123;</div><div class="line"><span class="comment">// 鼠标的对象，也就是子类</span></div><div class="line"></div><div class="line">    <span class="comment">// 继承父类的构造函数的属性</span></div><div class="line">    <span class="keyword">constructor</span>(x, y) &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 新增一个自己的方法</span></div><div class="line">    <span class="comment">// 当鼠标进入页面，在鼠标坐标画圆</span></div><div class="line">    drawCircle()&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><p>就这样，基本的结构就完成了，我们来具体看一下这个结构，在<code>Circle</code>（之后统称为父类），定义了一个构造函数，这里面都是canvas画图用到的相关属性，按照我们的需求，这里面需要有圆的x坐标，y坐标，圆的半径，圆每次移动的距离，那就可以这样写：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 父类</span></div><div class="line"><span class="keyword">constructor</span>(x, y) &#123;</div><div class="line">    <span class="keyword">this</span>.x = x;</div><div class="line">    <span class="keyword">this</span>.y = y;</div><div class="line">    <span class="keyword">this</span>.r = <span class="built_in">Math</span>.random() * <span class="number">10</span>; <span class="comment">//圆的半径</span></div><div class="line">    <span class="keyword">this</span>._mx = <span class="built_in">Math</span>.random(); <span class="comment">//圆在x轴上移动的距离</span></div><div class="line">    <span class="keyword">this</span>._my = <span class="built_in">Math</span>.random(); <span class="comment">//圆在y轴上移动的距离</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里面，之所以只有x,y需要以参数的形式定义，先猜猜为什么？</p>
+<p>前面提到过，无论是初始化效果还是鼠标的交互，只有一个地方不一样，就是后者的鼠标坐标就是新产生的圆的坐标，而非随机的。<code>currentCircle</code>（之后统称为子类）继承了父类构造函数中的属性，所以只有以参数的形式传入才能灵活的选择是随机还是鼠标坐标定义圆的位置。如果现在不好理解的话，等文章结束，就会明白了。</p>
+<p>完成属性之后，我们就来完善父类的方法。</p>
+<p>无论是画圆还是说连线，都需要用到canvas，因此方法内部都要用到canvas的2D上下文对象，这个既可以用参数传入。</p>
+<p>连线的方法，不仅要知道线的起始点在哪，还需要知道重点在哪，起始点很好确定，当前圆的中心点的坐标即可，终点则不好确定，因此我们可以把另一个圆作为参数传入，读取它的坐标，因此就是这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//父类</span></div><div class="line">drawCircle(ctx) &#123;</div><div class="line">    ctx.beginPath();</div><div class="line">    ctx.arc(<span class="keyword">this</span>.x, <span class="keyword">this</span>.y, <span class="keyword">this</span>.r, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">false</span>);</div><div class="line">    ctx.closePath();</div><div class="line">    ctx.fillStyle = <span class="string">'rgba(204, 204, 204, 0.3)'</span>;</div><div class="line">    ctx.fill();</div><div class="line">&#125;</div><div class="line"></div><div class="line">drawLine(ctx, _circle) &#123;</div><div class="line">    <span class="comment">// _circle就是需要产生连线的另一个圆</span></div><div class="line">    <span class="keyword">let</span> dx = <span class="keyword">this</span>.x - _circle.x; <span class="comment">// 两个圆心在x轴上的距离</span></div><div class="line">    <span class="keyword">let</span> dy = <span class="keyword">this</span>.y - _circle.y; <span class="comment">// 两个圆心在y轴上的距离</span></div><div class="line">    <span class="keyword">let</span> d = <span class="built_in">Math</span>.sqrt(dx * dx + dy * dy) <span class="comment">// 利用三角函数计算出两个圆心之间的距离</span></div><div class="line">    <span class="keyword">if</span> (d &lt; <span class="number">150</span>) &#123;</div><div class="line">        ctx.beginPath();</div><div class="line">        ctx.moveTo(<span class="keyword">this</span>.x, <span class="keyword">this</span>.y); <span class="comment">// 线的起点</span></div><div class="line">        ctx.lineTo(_circle.x, _circle.y); <span class="comment">// 线的终点</span></div><div class="line">        ctx.closePath();</div><div class="line">        ctx.strokeStyle = <span class="string">'rgba(204, 204, 204, 0.3)'</span>;</div><div class="line">        ctx.stroke();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>之前我也说过，线的产生是在两个圆接近的地方产生，否则就不画线，因此需要判断距离，代码中的距离是150像素，这个根据需求可以随意改。</p>
+<p>最后就是移动啦:-D</p>
+<p>那首先，我们是不是得保证所有效果的实现都是在canvas里面，不允许有超出的现象发生，如果碰到边界了，应该返回去。氮素每个人的电脑屏幕又不一样大，因此这个大小就不能是固定的，因此就只能写成参数的形式了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//父类</span></div><div class="line">move(w, h) &#123;</div><div class="line">    <span class="keyword">this</span>._mx = (<span class="keyword">this</span>.x &lt; w &amp;&amp; <span class="keyword">this</span>.x &gt; <span class="number">0</span>) ? <span class="keyword">this</span>._mx : (-<span class="keyword">this</span>._mx);</div><div class="line">    <span class="keyword">this</span>._my = (<span class="keyword">this</span>.y &lt; h &amp;&amp; <span class="keyword">this</span>.y &gt; <span class="number">0</span>) ? <span class="keyword">this</span>._my : (-<span class="keyword">this</span>._my);</div><div class="line">    <span class="keyword">this</span>.x += <span class="keyword">this</span>._mx / <span class="number">2</span>; <span class="comment">// (this._mx / 2)越大，移动越快，下同</span></div><div class="line">    <span class="keyword">this</span>.y += <span class="keyword">this</span>._my / <span class="number">2</span>;       </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里面，w和h分别代表画布的宽和高，我具体想说一下里面对距离的判断。</p>
+<p>根据写法可以看出来，会先判断这个圆的x坐标和y坐标是不是在画布内。<br>如果是，就给一个正值。<br>如果不是，就给一个负值。</p>
+<p>但我也在担心，如果圆一开始就向左边或者上面移动，那不就移动的距离变负值，飘出页面了么？不知道有没有人看出来我这个想法有多蠢。</p>
+<p>首先，无论是初始化的效果，亦或是鼠标交互产生的圆，能确定的是他们一定在画布的范围内。所以一开始对于移动距离的判断就肯定是正值，这样的话，圆的移动方向就是向右或者向下这个范围里的一个方向所以他们的结果就是一定会先碰到右边和下边的边界，此时，距离为负值，向相反的方向移动，下次再碰到左边和上边的边界时，距离为正值，在向相反的方向运动，不断循环。因此效果根本不会跑出圈外。</p>
+<p>至此，父类的内容就写完了，相比，子类其实就很简单了，一个是继承属性，一个是修改方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 子类</span></div><div class="line"></div><div class="line"><span class="keyword">constructor</span>(x, y) &#123;</div><div class="line">    <span class="keyword">super</span>(x, y)</div><div class="line">&#125;</div><div class="line"></div><div class="line">drwaCircle(ctx) &#123;</div><div class="line">    ctx.beginPath();</div><div class="line">    <span class="keyword">this</span>.r = <span class="number">8</span></div><div class="line">    ctx.arc(<span class="keyword">this</span>.x, <span class="keyword">this</span>.y, <span class="keyword">this</span>.r, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">false</span>)</div><div class="line">    ctx.fillStyle = <span class="string">'rgba(255, 77, 54, 0.6)'</span></div><div class="line">    ctx.fill();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>子类的<code>drwaCircle</code>方法和父类的<code>drwaCircle</code>方法不同的地方在于，前者的圆半径是固定的，如果说你希望半径随机，这个方法就不必改写，直接继承父类的就可以。</p>
+<p>父类和子类的问题解决之后，我们来看一些公共的属性和方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>)</div><div class="line"><span class="built_in">document</span>.body.appendChild(canvas)</div><div class="line"><span class="keyword">let</span> ctx = canvas.getContext(<span class="string">'2d'</span>);</div><div class="line"><span class="keyword">let</span> w = canvas.width = canvas.offsetWidth;</div><div class="line"><span class="keyword">let</span> h = canvas.height = canvas.offsetHeight;</div><div class="line"><span class="keyword">let</span> circles = [];</div><div class="line"><span class="keyword">let</span> current_circle = <span class="keyword">new</span> currentCircle(<span class="number">0</span>, <span class="number">0</span>)</div></pre></td></tr></table></figure>
+<p>这里面我主要说一下这两句</p>
+<pre><code>let circles = [];
+let current_circle = new currentCircle(0, 0)
+</code></pre><p><code>circles</code>从定义看就是一个空数组，那么它的意义是什么呢？</p>
+<p>我们最初的目的就是在画布中画一个个的圆，并且这些圆都按照自己的方向移动，靠近还会连线，那这每一个圆就可以看做是一个对象，每一个对象都包含这个圆的x坐标，y左边，半径，移动的距离这些基本信息，然后基于这些信息画圆，移动，再和另一个圆交互划线。</p>
+<p>因此这个<code>circles</code>就是储存了页面中所有圆圈对象的一个集合。那肯定我们得先创建这么一个集合：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> init = <span class="function">(<span class="params">num</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>;i&lt;num;i++)&#123;</div><div class="line">        circles.push(<span class="keyword">new</span> Circle(<span class="built_in">Math</span>.random()*w,<span class="built_in">Math</span>.random()*h))</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>num</code>就是页面中圆的个数，也是<code>circle</code>的length。至于循环，就是按照你需要的个数创建父类的实例，每一个实例都有自己的各种属性，然后将他们添加到集合中。这样就完成了对数组的初始化。</p>
+<p>再看后面那句。</p>
+<p>这里创建了一个子类的实例，这个实例是用来进行鼠标交互的，这里创建实例的时候，传入的x和y都是0，这个很重要，后面再说为什么。</p>
+<p>现在，我们初始化了所有的圆，实例化了鼠标的行为，创建好了画布，但只是这样，浏览器是不知道我们要干什么的，我们现在还需要一个方法告诉浏览器我们要做什么。</p>
+<p>关于这个方法，我们得告诉浏览器，你需要按照我给定的数目画圆，每个圆按照一定的频率和距离移动，然后两个圆还得连线。现在数组已经有了，就这样写：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> draw = <span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;circle.length;i++)&#123;</div><div class="line">        <span class="comment">// 这里遍历了数组的每一个对象</span></div><div class="line">        <span class="comment">// 那这个对象先要用方法把自己按照自己的属性画出来</span></div><div class="line">        <span class="comment">// 再按照属性规定的方式移动</span></div><div class="line">        circle[i].drwaCircle(ctx)</div><div class="line">        circle[i].move(w,h)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j =i+<span class="number">1</span>;j&lt;circle.length;j++)&#123;</div><div class="line">            <span class="comment">// 之前说过，划线需要有一个起始点和一个终止点</span></div><div class="line">            <span class="comment">// 起始点很好解决，就是调用该方法的圆的坐标</span></div><div class="line">            <span class="comment">// 终止点就可以遍历数组中的其他对象，如果这个对象的距离小于我们规定的距离，划线成功，反之就不画线</span></div><div class="line">            circle[i].drawLine(circle[j])</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是这样够么？我们这里只是告诉了浏览器一开始怎么做，但是没有告诉浏览器鼠标进入该怎么办。但是我们得先判断鼠标有没有进入页面，也就是有没有x值和y值产生。</p>
+<p>记得之前在初始化鼠标实例的时候传入了两个0么，正好就可以借助这个判断一下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> draw = <span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;circle.length;i++)&#123;</div><div class="line">        <span class="comment">// 这里遍历了数组的每一个对象</span></div><div class="line">        <span class="comment">// 那这个对象先要用方法把自己按照自己的属性画出来</span></div><div class="line">        <span class="comment">// 再按照属性规定的方式移动</span></div><div class="line">        circle[i].drwaCircle(ctx)</div><div class="line">        circle[i].move(w,h)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j =i+<span class="number">1</span>;j&lt;circle.length;j++)&#123;</div><div class="line">            <span class="comment">// 之前说过，划线需要有一个起始点和一个终止点</span></div><div class="line">            <span class="comment">// 起始点很好解决，就是调用该方法的圆的坐标</span></div><div class="line">            <span class="comment">// 终止点就可以遍历数组中的其他对象，如果这个对象的距离小于我们规定的距离，划线成功，反之就不画线</span></div><div class="line">            circle[i].drawLine(ctx,circle[j])</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(current_circle.x)&#123;</div><div class="line">       current_circle.drawCircle(ctx) </div><div class="line">       <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;circle.length;i++)&#123;</div><div class="line">            current_circle.drawLine(ctx,circle[i]) </div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样告诉浏览器该干什么就完成了，但是这个方法只会执行一遍，而我们需要的是动画效果，所以还需要一个计时器，这里推荐使用新的API:<code>requestAnimationFrame</code>。</p>
+<p>这个方法非常适用于动画效果，我们知道，计时器并不是那么完美，至少，他不一定会按照你给的时间间隔运行，而这个方法是按照屏幕的刷新频率运行的，因此动画效果更流畅。</p>
+<p>酱紫，这个方法就写完了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> draw = <span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;circle.length;i++)&#123;</div><div class="line">        <span class="comment">// 这里遍历了数组的每一个对象</span></div><div class="line">        <span class="comment">// 那这个对象先要用方法把自己按照自己的属性画出来</span></div><div class="line">        <span class="comment">// 再按照属性规定的方式移动</span></div><div class="line">        circle[i].drwaCircle(ctx)</div><div class="line">        circle[i].move(w,h)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j =i+<span class="number">1</span>;j&lt;circle.length;j++)&#123;</div><div class="line">            <span class="comment">// 之前说过，划线需要有一个起始点和一个终止点</span></div><div class="line">            <span class="comment">// 起始点很好解决，就是调用该方法的圆的坐标</span></div><div class="line">            <span class="comment">// 终止点就可以遍历数组中的其他对象，如果这个对象的距离小于我们规定的距离，划线成功，反之就不画线</span></div><div class="line">            circle[i].drawLine(ctx,circle[j])</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(current_circle.x)&#123;</div><div class="line">       current_circle.drawCircle(ctx) </div><div class="line">       <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;circle.length;i++)&#123;</div><div class="line">            current_circle.drawLine(ctx,circle[i]) </div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">    requestAnimationFrame(draw)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后把这个方法写进初始化的方法里：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> init = <span class="function">(<span class="params">num</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>;i&lt;num;i++)&#123;</div><div class="line">        circles.push(<span class="keyword">new</span> Circle(<span class="built_in">Math</span>.random()*w,<span class="built_in">Math</span>.random()*h))</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">draw();</div></pre></td></tr></table></figure>
+<p>之后再告诉浏览器什么时候进行初始化：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, init(<span class="number">200</span>));</div><div class="line"></div><div class="line"><span class="built_in">window</span>.onmousemove = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    e = e || <span class="built_in">window</span>.event;</div><div class="line">    current_circle.x = e.clientX;</div><div class="line">    current_circle.y = e.clientY;</div><div class="line">&#125;</div><div class="line"><span class="built_in">window</span>.onmouseout = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    current_circle.x = <span class="literal">null</span>;</div><div class="line">    current_circle.y = <span class="literal">null</span>;</div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>然后监控鼠标何时进入页面，监测其坐标并把值附给鼠标实例。</p>
+<p>酱紫，整个效果就完成了，因为代码是用es6语法写的，因此需要了解一些该语法的特性，如果实在看不明白，可以对照着es5版本的语法一起看。</p>
+<p>谢谢大家。</p>
+
+      
+    </div>
+
+    <div>    
+       
+       
+          <ul class="post-copyright">
+            <li class="post-copyright-author">
+                <strong>本文作者：</strong>JaneSu
+            </li>
+            <li class="post-copyright-link">
+              <strong>本文链接：</strong>
+              <a href="/2017/10/09/知乎粒子束的实现/" title="知乎粒子束的实现">2017/10/09/知乎粒子束的实现/</a>
+            </li>
+            <li class="post-copyright-license">
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0 CN</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/canvas/" rel="tag"># canvas</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/21/由插件封装引出的一丢丢思考/" rel="next" title="由插件封装引出的一丢丢思考">
+                <i class="fa fa-chevron-left"></i> 由插件封装引出的一丢丢思考
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JaneSu" />
+          <p class="site-author-name" itemprop="name">JaneSu</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#整体框架"><span class="nav-number">1.</span> <span class="nav-text">整体框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体实现"><span class="nav-number">2.</span> <span class="nav-text">具体实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JaneSu</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div>本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://janesu.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://janesu.github.io/2017/10/09/知乎粒子束的实现/';
+          this.page.identifier = '2017/10/09/知乎粒子束的实现/';
+          this.page.title = '知乎粒子束的实现';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://janesu.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
