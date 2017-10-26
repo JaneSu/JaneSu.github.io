@@ -87,13 +87,24 @@
 
 
 
+<meta name="description" content="这两天在看《nodejs权威指南》，这本书看了好久了，但是读的一直不细，这次才好好看了一遍。
+收获还是蛮多的，主要在于wenpack使用的一些细节问题，有点茅塞顿悟的体验吧，另外在node上也不再一脸懵逼了。不过说实话，以现在的水平向直接使用node做点什么还是挺难的，今天测试了下链接mongodb和mysql数据库，虽然能使用，但还是怪怪的。所以就想先使用现有的框架，再反推学习node。
+框架的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Express系列之multer">
 <meta property="og:url" content="https://janesu.github.io/2017/10/27/Express系列之multer/index.html">
 <meta property="og:site_name" content="青青子衿">
-<meta property="og:updated_time" content="2017-10-26T16:49:18.000Z">
+<meta property="og:description" content="这两天在看《nodejs权威指南》，这本书看了好久了，但是读的一直不细，这次才好好看了一遍。
+收获还是蛮多的，主要在于wenpack使用的一些细节问题，有点茅塞顿悟的体验吧，另外在node上也不再一脸懵逼了。不过说实话，以现在的水平向直接使用node做点什么还是挺难的，今天测试了下链接mongodb和mysql数据库，虽然能使用，但还是怪怪的。所以就想先使用现有的框架，再反推学习node。
+框架的">
+<meta property="og:image" content="http://onsmpwfeh.bkt.clouddn.com/15090373428535.jpg">
+<meta property="og:updated_time" content="2017-10-26T17:18:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Express系列之multer">
+<meta name="twitter:description" content="这两天在看《nodejs权威指南》，这本书看了好久了，但是读的一直不细，这次才好好看了一遍。
+收获还是蛮多的，主要在于wenpack使用的一些细节问题，有点茅塞顿悟的体验吧，另外在node上也不再一脸懵逼了。不过说实话，以现在的水平向直接使用node做点什么还是挺难的，今天测试了下链接mongodb和mysql数据库，虽然能使用，但还是怪怪的。所以就想先使用现有的框架，再反推学习node。
+框架的">
+<meta name="twitter:image" content="http://onsmpwfeh.bkt.clouddn.com/15090373428535.jpg">
 
 
 
@@ -381,7 +392,42 @@
       
 
       
-        
+        <p>这两天在看《nodejs权威指南》，这本书看了好久了，但是读的一直不细，这次才好好看了一遍。</p>
+<p>收获还是蛮多的，主要在于wenpack使用的一些细节问题，有点茅塞顿悟的体验吧，另外在node上也不再一脸懵逼了。不过说实话，以现在的水平向直接使用node做点什么还是挺难的，今天测试了下链接<code>mongodb</code>和<code>mysql</code>数据库，虽然能使用，但还是怪怪的。所以就想先使用现有的框架，再反推学习node。</p>
+<p>框架的话就选了这个<code>express</code>.</p>
+<p>主要就是测试了几个书里提到的中间件，书写的有些早，很多api都过时了，照着官网一点一点找更新的地方看。</p>
+<p>目前觉得对我有用的是：<code>multer</code>和<code>static</code>。</p>
+<p>后者可以在本地调试页面，对于手机页面尤其有用。</p>
+<p>这次主要说一下<code>multer</code>，我并没有实现所有的功能，只是实现单图片上传这一个功能，其他的再摸索喽。</p>
+<p><img src="http://onsmpwfeh.bkt.clouddn.com/15090373428535.jpg" alt=""></p>
+<p>这是文件的整个目录，主要就两个，一个是根目录下的<code>main.js</code>，还有一个是<code>public/index.html</code>。</p>
+<p>放代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js</span></div><div class="line"><span class="keyword">let</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> multer  = <span class="built_in">require</span>(<span class="string">'multer'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> storage = multer.diskStorage(&#123;</div><div class="line">    <span class="attr">destination</span>: <span class="function"><span class="keyword">function</span> (<span class="params">req, file, cb</span>) </span>&#123;</div><div class="line">      cb(<span class="literal">null</span>, <span class="string">'public/'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">filename</span>: <span class="function"><span class="keyword">function</span> (<span class="params">req, file, cb</span>) </span>&#123;</div><div class="line">      cb(<span class="literal">null</span>, <span class="built_in">Date</span>.now() + <span class="string">'.png'</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">  </div><div class="line"><span class="keyword">var</span> upload = multer(&#123; <span class="attr">storage</span>: storage &#125;)</div><div class="line"></div><div class="line"><span class="comment">//var upload = multer(&#123; dest: 'public/' &#125;)</span></div><div class="line">  </div><div class="line"></div><div class="line"><span class="keyword">let</span> app = express()</div><div class="line"></div><div class="line">app.use(express.static(<span class="string">'public'</span>))</div><div class="line"></div><div class="line">app.post(<span class="string">'/public/index.html'</span>,upload.single(<span class="string">'myfile'</span>),(req,res,next)=&gt;&#123;</div><div class="line">    <span class="built_in">console</span>.log(req.file)</div><div class="line">    res.send(req.file)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(<span class="number">3300</span>,<span class="string">'127.0.0.1'</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- index.html --&gt;</span></div><div class="line"></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">id</span>=<span class="string">"file"</span> <span class="attr">accept</span>=<span class="string">"image/*"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"result"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">"img"</span> <span class="attr">width</span>=<span class="string">"40"</span> <span class="attr">height</span>=<span class="string">"40"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="keyword">let</span> file = <span class="built_in">document</span>.getElementById(<span class="string">'file'</span>);</div><div class="line">        file.onchange = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">            <span class="keyword">let</span> file = e.target.files[<span class="number">0</span>];</div><div class="line">            <span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">            <span class="keyword">let</span> fd = <span class="keyword">new</span> FormData();</div><div class="line">            fd.append(<span class="string">'myfile'</span>, file)</div><div class="line">            xhr.open(<span class="string">'post'</span>, <span class="string">'/public/index.html'</span>)</div><div class="line">            xhr.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="comment">// console.log(xhr)</span></div><div class="line">                <span class="keyword">if</span> (xhr.status === <span class="number">200</span>) &#123;</div><div class="line">                    <span class="keyword">let</span> data = <span class="built_in">JSON</span>.parse(xhr.responseText)</div><div class="line">                    <span class="built_in">document</span>.getElementById(<span class="string">'result'</span>).innerHTML = <span class="keyword">this</span>.response</div><div class="line">                    <span class="built_in">document</span>.getElementById(<span class="string">'img'</span>).src = data.filename</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            xhr.send(fd)</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>不想引用jquery库，我就原生写的ajax，总的来说应该没什么难的，总之就是点击按钮选择完图片之后，会将图片的信息放在一个键名为<code>myfile</code>的对象中，传给后台。</p>
+<p>express把接受到的图片存储在<code>/public/</code>文件下，这里有个小小的坑。可以看到我在<code>main.js</code>注释了这样一行代码：</p>
+<pre><code>var upload = multer({ dest: &apos;public/&apos; })
+</code></pre><p>其实最开始的时候我用的就是这一行代码，<code>dest</code>的意思是选择一个路径去存储文件，但是这样写有一个小小的问题，存入进来的文件是没有后缀名的。</p>
+<p>我在向前台返回数据的时候</p>
+<pre><code>res.send(req.file)
+</code></pre><p>这个问题就很严重，比如一个场景是我上传一张图片做头像，但是等我下次进入自己的个人页面，后台给我返回的数据没有办法作为图片的地址使用，这就很麻烦了。所以在网上找了一个原因，就把上面的代码注释换成了这个：</p>
+<pre><code>var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, &apos;public/&apos;);
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + &apos;.png&apos;);
+    }
+})
+
+var upload = multer({ storage: storage })
+</code></pre><p><code>destination</code>是文件存储的地址，<code>filename</code>设置的是文件的名字，那在这里如果写成这种：</p>
+<pre><code>filename: function (req, file, cb) {
+  cb(null, file.fieldname + &apos;.png&apos;);
+}
+</code></pre><p>你会发现你传入的每一张图片的名字都是<code>myfile.png</code>，新的覆盖旧的。所以为了能保存传入的所有图片，我就使用Date.now()作为每张图片不同的识别符，这样就不会再出现覆盖的情况。</p>
+<p>目前就这样，下次弄出来了多图片上传我再接着更新。</p>
+
       
     </div>
 
