@@ -399,7 +399,7 @@
       
         <p>看了一篇分析underscore中防抖动函数的实现方法，觉得挺实用的，就学习了一下，写在这里。</p>
 <p>首先说明一下为什么要使用防抖动函数，看下面这个例子。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//text.html</span></div><div class="line">&lt;div id=<span class="string">'text'</span>&gt;&lt;/div&gt;</div><div class="line"></div><div class="line"><span class="comment">//text.js</span></div><div class="line"><span class="keyword">let</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'text'</span>);</div><div class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    count++;</div><div class="line">    div.innerText = count</div><div class="line">&#125;</div><div class="line"></div><div class="line">div.onmousemove = count;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//text.html</span></div><div class="line">&lt;div id=<span class="string">'text'</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">//text.js</span></div><div class="line"><span class="keyword">let</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'text'</span>);</div><div class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    count++;</div><div class="line">    div.innerText = count</div><div class="line">&#125;</div><div class="line"></div><div class="line">div.onmousemove = count;</div></pre></td></tr></table></figure>
 <p><img src="http://onsmpwfeh.bkt.clouddn.com/15093757686666.gif" alt=""></p>
 <p>可以看到的是，当鼠标在div的区域滑动时，<code>count</code>函数是一直增加的。</p>
 <p>假如现在有个需求是鼠标划入div，发送ajax请求，按照上面的逻辑，可能最后会发生几十次ajax请求，这显然是不合适的。因此就需要一个方法来限制函数的调用次数。这就是这篇的主题<strong>防抖动</strong>。</p>
@@ -519,6 +519,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/10/31/underscore源码解读之debounce/" rel="prev" title="underscore源码解读之debounce">
+                underscore源码解读之debounce <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -596,7 +600,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
