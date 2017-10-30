@@ -97,19 +97,19 @@
 <meta property="og:description" content="看了一篇分析underscore中防抖动函数的实现方法，觉得挺实用的，就学习了一下，写在这里。
 首先说明一下为什么要使用防抖动函数，看下面这个例子。
 12345678910111213//text.html&amp;lt;div id=&apos;text&apos;&amp;gt;&amp;lt;/div&amp;gt;//text.jslet div = document.getElementById(&apos;text&apos;);let count = 0">
-<meta property="og:image" content="https://janesu.github.io/media/15093696955333.gif">
-<meta property="og:image" content="https://janesu.github.io/media/15093718420607.gif">
-<meta property="og:image" content="https://janesu.github.io/media/15093720750146.jpg">
+<meta property="og:image" content="http://onsmpwfeh.bkt.clouddn.com/15093757686666.gif">
+<meta property="og:image" content="http://onsmpwfeh.bkt.clouddn.com/15093758028342.gif">
+<meta property="og:image" content="http://onsmpwfeh.bkt.clouddn.com/15093758124321.gif">
 <meta property="og:image" content="https://janesu.github.io/media/15093724931516.jpg">
 <meta property="og:image" content="https://janesu.github.io/media/15093727334098.jpg">
 <meta property="og:image" content="https://janesu.github.io/media/15093744993962.gif">
-<meta property="og:updated_time" content="2017-10-30T14:59:48.000Z">
+<meta property="og:updated_time" content="2017-10-30T15:03:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="debounce防抖动函数的实现">
 <meta name="twitter:description" content="看了一篇分析underscore中防抖动函数的实现方法，觉得挺实用的，就学习了一下，写在这里。
 首先说明一下为什么要使用防抖动函数，看下面这个例子。
 12345678910111213//text.html&amp;lt;div id=&apos;text&apos;&amp;gt;&amp;lt;/div&amp;gt;//text.jslet div = document.getElementById(&apos;text&apos;);let count = 0">
-<meta name="twitter:image" content="https://janesu.github.io/media/15093696955333.gif">
+<meta name="twitter:image" content="http://onsmpwfeh.bkt.clouddn.com/15093757686666.gif">
 
 
 
@@ -399,8 +399,8 @@
       
         <p>看了一篇分析underscore中防抖动函数的实现方法，觉得挺实用的，就学习了一下，写在这里。</p>
 <p>首先说明一下为什么要使用防抖动函数，看下面这个例子。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//text.html</span></div><div class="line">&lt;div id=<span class="string">'text'</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">//text.js</span></div><div class="line"><span class="keyword">let</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'text'</span>);</div><div class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    count++;</div><div class="line">    div.innerText = count</div><div class="line">&#125;</div><div class="line"></div><div class="line">div.onmousemove = count;</div></pre></td></tr></table></figure>
-<p><img src="media/15093696955333.gif" alt=""></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//text.html</span></div><div class="line">&lt;div id=<span class="string">'text'</span>&gt;&lt;/div&gt;</div><div class="line"></div><div class="line"><span class="comment">//text.js</span></div><div class="line"><span class="keyword">let</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'text'</span>);</div><div class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    count++;</div><div class="line">    div.innerText = count</div><div class="line">&#125;</div><div class="line"></div><div class="line">div.onmousemove = count;</div></pre></td></tr></table></figure>
+<p><img src="http://onsmpwfeh.bkt.clouddn.com/15093757686666.gif" alt=""></p>
 <p>可以看到的是，当鼠标在div的区域滑动时，<code>count</code>函数是一直增加的。</p>
 <p>假如现在有个需求是鼠标划入div，发送ajax请求，按照上面的逻辑，可能最后会发生几十次ajax请求，这显然是不合适的。因此就需要一个方法来限制函数的调用次数。这就是这篇的主题<strong>防抖动</strong>。</p>
 <p>vue的官网上有一个例子，是你在输入内容的时候，下方提示你正在输入，当你输入完成之后，如果符合要求，就告诉你成功，否则就提示内容不正确，这就是一个防抖动的实例。</p>
@@ -409,13 +409,13 @@
 <h2 id="乞丐版"><a href="#乞丐版" class="headerlink" title="乞丐版"></a>乞丐版</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func,wait</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> timer;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(timer)&#123;</div><div class="line">            clearTimeout(timer)</div><div class="line">        &#125;</div><div class="line">        timer = setTimeout(func,wait)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>基本的结构就是这样，运行一下试试看。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">div.onmousemove = debounce(func,wait);</div></pre></td></tr></table></figure>
-<p><img src="media/15093718420607.gif" alt=""></p>
+<p><img src="http://onsmpwfeh.bkt.clouddn.com/15093758028342.gif" alt=""></p>
 <p>鼠标在滑动时，数字不会增加，当鼠标停下一段时间，数字才会自增1.</p>
 <p>但是这个乞丐版的代码有一点问题，提示一下，和定时器有关，不知道能猜出来么？</p>
 <h3 id="this指向之谜"><a href="#this指向之谜" class="headerlink" title="this指向之谜"></a>this指向之谜</h3><p>我们在<code>count</code>函数里加一句：</p>
 <pre><code>console.log(this)
 </code></pre><p>再运行会发现输出的是这样：</p>
-<p><img src="media/15093720750146.jpg" alt=""></p>
+<p><img src="http://onsmpwfeh.bkt.clouddn.com/15093758124321.gif" alt=""></p>
 <p>也就是说<code>count</code>里的this被指向了全局，而不是调用这个方法的dom了。有时候这样会导致使用this出错，至于为什么会出现这个问题，上面也说了，和定时器的回调有关系，回调函数的执行是在全局执行的，因此它的this也就会指向全局。</p>
 <p>这里有两个方法可以解决这个问题。</p>
 <p><strong>方法一</strong></p>
