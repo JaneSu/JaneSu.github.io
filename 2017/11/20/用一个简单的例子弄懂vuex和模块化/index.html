@@ -1,0 +1,807 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章预设你已经了解vue相关的基础知识，因此本文不再赘述。
+对vuex的定位和解释可以看官方文档，说的很详细了，我主要从实用的角度写一写如何在实际项目中使用vuex，例子真的很简单（简陋），但是主要是理解这种思维就好。
+例子是在vue-cli基础上构建的，以下是src文件下的内容目录。
+123456789101112131415161718├── App.vue├── components /">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用一个简单的例子弄懂vuex和模块化">
+<meta property="og:url" content="https://janesu.github.io/2017/11/20/用一个简单的例子弄懂vuex和模块化/index.html">
+<meta property="og:site_name" content="青青子衿">
+<meta property="og:description" content="这篇文章预设你已经了解vue相关的基础知识，因此本文不再赘述。
+对vuex的定位和解释可以看官方文档，说的很详细了，我主要从实用的角度写一写如何在实际项目中使用vuex，例子真的很简单（简陋），但是主要是理解这种思维就好。
+例子是在vue-cli基础上构建的，以下是src文件下的内容目录。
+123456789101112131415161718├── App.vue├── components /">
+<meta property="og:image" content="https://janesu.github.io/media/15111649816033.gif">
+<meta property="og:image" content="https://janesu.github.io/media/15111691688351.jpg">
+<meta property="og:updated_time" content="2017-11-20T09:19:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用一个简单的例子弄懂vuex和模块化">
+<meta name="twitter:description" content="这篇文章预设你已经了解vue相关的基础知识，因此本文不再赘述。
+对vuex的定位和解释可以看官方文档，说的很详细了，我主要从实用的角度写一写如何在实际项目中使用vuex，例子真的很简单（简陋），但是主要是理解这种思维就好。
+例子是在vue-cli基础上构建的，以下是src文件下的内容目录。
+123456789101112131415161718├── App.vue├── components /">
+<meta name="twitter:image" content="https://janesu.github.io/media/15111649816033.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://janesu.github.io/2017/11/20/用一个简单的例子弄懂vuex和模块化/"/>
+
+
+
+
+
+  <title> 用一个简单的例子弄懂vuex和模块化 | 青青子衿 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">青青子衿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tasks"></i> <br />
+            
+            作品集
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://janesu.github.io/2017/11/20/用一个简单的例子弄懂vuex和模块化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JaneSu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青青子衿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                用一个简单的例子弄懂vuex和模块化
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T17:19:00+08:00">
+                2017-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/20/用一个简单的例子弄懂vuex和模块化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/11/20/用一个简单的例子弄懂vuex和模块化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章预设你已经了解vue相关的基础知识，因此本文不再赘述。</p>
+<p>对vuex的定位和解释可以看官方文档，说的很详细了，我主要从实用的角度写一写如何在实际项目中使用vuex，例子真的很简单（简陋），但是主要是理解这种思维就好。</p>
+<p>例子是在vue-cli基础上构建的，以下是src文件下的内容目录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">├── App.vue</div><div class="line">├── components // 组件文件夹</div><div class="line">│   ├── tab1.vue</div><div class="line">│   ├── tab2.vue</div><div class="line">│   ├── tab3.vue</div><div class="line">│   └── tab4.vue</div><div class="line">├── main.js // vue的主文件入口</div><div class="line">├── router // vue-router文件</div><div class="line">│   └── index.js</div><div class="line">└── store // vuex文件</div><div class="line">    ├── action.js  // action</div><div class="line">    ├── getter.js // getter</div><div class="line">    ├── index.js  // vuex的主文件</div><div class="line">    ├── module // 模块文件</div><div class="line">    │   ├── tab2.js</div><div class="line">    │   └── tab3.js</div><div class="line">    ├── mutation-type.js // mutation常量名文件</div><div class="line">    └── mutation.js // mutation</div></pre></td></tr></table></figure>
+<p>效果是这样的（不要嫌弃简陋啊啊啊）</p>
+<p><img src="media/15111649816033.gif" alt=""></p>
+<p>在这个例子里，把文档里提到的vuex的相关知识都使用了一遍，包括模块相关的知识，基本把一般的使用场景都覆盖了吧。</p>
+<p>那不废话了，开始吧。</p>
+<p>首先app.vue和router两部分是和路由相关，就是很简单的东西，看看文档就能了解。</p>
+<h1 id="vuex的模块化"><a href="#vuex的模块化" class="headerlink" title="vuex的模块化"></a>vuex的模块化</h1><p>在写这个例子之前看了很多的开源项目的代码，一开始蛮新鲜的，毕竟之前项目中并没有深度使用过vuex，基本就是一个store.js里把vuex的功能就都完成了，但是项目复杂肯定不能这么写，正好现在有这个需求，我就想写个例子理一理这方面的思路。结果还是蛮简单的。</p>
+<p>store文件里的内容就是按照vuex五个核心概念建立的，这么做的好处对于梳理业务逻辑和后期维护都是极大的方便，比如<code>mutation.js</code>和<code>mutation-type.js</code>这两个文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// mutation-type.js</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> CHANGE_COUNT = <span class="string">'CHANGE_COUNT'</span>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    CHANGE_COUNT</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// mutation.js</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> type <span class="keyword">from</span> <span class="string">'./mutation-type'</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> mutations = &#123;</div><div class="line">    [type.CHANGE_COUNT](state) &#123;</div><div class="line">        state.count++</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> mutations</div></pre></td></tr></table></figure>
+<p>将mutation中的方法名单独作为常量提取出来，放在单独的文件中，用的时候引用相关的内容，这样非常便于管理和了解有哪些方法存在，很直观。另一方面，有时候可能需要用到action，可以使用相同的方法名，只要再引入常量的文件就行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// action.js</span></div><div class="line"><span class="keyword">import</span> type <span class="keyword">from</span> <span class="string">'./mutation-type'</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> actions = &#123;</div><div class="line">    [type.CHANGE_COUNT](&#123; commit &#125;) &#123;</div><div class="line">      </div><div class="line">        commit(type.CHANGE_COUNT)</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> actions</div></pre></td></tr></table></figure>
+<p>怎么样，这样是不是看起来就没有写在一个文件里那么乱了。</p>
+<h1 id="…mapGetters和…mapActions"><a href="#…mapGetters和…mapActions" class="headerlink" title="…mapGetters和…mapActions"></a>…mapGetters和…mapActions</h1><p>tab1.vue里：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">// tab1.vue</div><div class="line">&lt;template&gt;</div><div class="line">   &lt;div&gt;</div><div class="line">        &lt;p&gt;这是tab1的内容&lt;/p&gt;</div><div class="line">        &lt;em @click="add"&gt;&#123;&#123;count&#125;&#125;&lt;/em&gt;</div><div class="line">        &lt;p&gt;getter:&#123;&#123;NewArr&#125;&#125;&lt;/p&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line">import &#123; mapActions, mapGetters &#125; from "vuex";</div><div class="line">import type from "../store/mutation-type";</div><div class="line">export default &#123;</div><div class="line"> computed: &#123;</div><div class="line">    ...mapGetters([</div><div class="line">        'NewArr'</div><div class="line">    ]),</div><div class="line">    count: function() &#123;</div><div class="line">      return this.$store.state.count;</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">    ...mapActions(&#123;</div><div class="line">      CHANGE_COUNT: type.CHANGE_COUNT</div><div class="line">    &#125;),</div><div class="line">    add: function() &#123;</div><div class="line">      this.CHANGE_COUNT(type.CHANGE_COUNT);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;style lang="" scoped&gt;</div><div class="line"></div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+<p>index.js文件里：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">'vuex'</span></div><div class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></div><div class="line"><span class="keyword">import</span> actions <span class="keyword">from</span> <span class="string">'./action'</span></div><div class="line"><span class="keyword">import</span> mutations <span class="keyword">from</span> <span class="string">'./mutation'</span></div><div class="line"><span class="keyword">import</span> getters <span class="keyword">from</span> <span class="string">'./getter'</span></div><div class="line"><span class="keyword">import</span> tab2 <span class="keyword">from</span> <span class="string">'./module/tab2'</span></div><div class="line"><span class="keyword">import</span> tab3 <span class="keyword">from</span> <span class="string">'./module/tab3'</span></div><div class="line"></div><div class="line">Vue.use(Vuex)</div><div class="line"></div><div class="line"><span class="keyword">let</span> state = &#123;</div><div class="line">    <span class="attr">count</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">arr</span>:[]</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">let</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</div><div class="line">    state,</div><div class="line">    getters,</div><div class="line">    mutations,</div><div class="line">    actions,</div><div class="line">    <span class="attr">modules</span>:&#123;</div><div class="line">        tab2,tab3</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> store</div></pre></td></tr></table></figure>
+<p>vuex提供了一种叫做<strong>辅助函数</strong>的东西，他的好处能让你在一个页面集中展示一些需要用到的东西，并且在使用的时候也可以少写一些内容，不过这个不是必须，根据自己需要取用。</p>
+<p>需要说明的是，他们两个生效的地方可不一样。</p>
+<p>…mapGetters写在本页面的计算属性中，之后就可以像使用计算属性一样使用getters里的内容了。</p>
+<p>…mapActions写在本页面的methods里面,既可以在其他方法里调用，甚至可以直接写在@click里面，像这样：</p>
+<pre><code>&lt;em @click=&quot;CHANGE_COUNT&quot;&gt;{{count}}&lt;/em&gt;
+</code></pre><p>酱紫，tab1里面的数字每次点击都会自增1。</p>
+<h1 id="mudule"><a href="#mudule" class="headerlink" title="mudule"></a>mudule</h1><p>vuex的文档里对于模块这部分写的比较模糊，还是得自己实际使用才能行。</p>
+<p>在本例子中，我设置了两个模块：tab2和tab3，分别对应着同名的两个组件，当然，我这样只是为了测试，实际看tab2就可以。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// module/tab2.js</span></div><div class="line"><span class="keyword">const</span> tab2 = &#123;</div><div class="line">    <span class="attr">state</span>: &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">`这是tab2模块的内容`</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">mutations</span>:&#123;</div><div class="line">        change2(state)&#123;</div><div class="line">            state.name = <span class="string">`我修改了tab2模块的内容`</span></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">getters</span>:&#123;</div><div class="line">        name(state,getters,rootState)&#123;</div><div class="line">            <span class="built_in">console</span>.log(rootState)</div><div class="line">            <span class="keyword">return</span> state.name + <span class="string">',使用getters修改'</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> tab2;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">// tab2.vue</div><div class="line">&lt;template&gt;</div><div class="line">   &lt;div&gt;</div><div class="line">        &lt;p&gt;这是tab2的内容&lt;/p&gt;</div><div class="line">        &lt;strong @click="change"&gt;点击使用muttion修改模块tab2的内容：&#123;&#123;info&#125;&#125;&lt;/strong&gt;</div><div class="line">        &lt;h4&gt;&#123;&#123;newInfo&#125;&#125;&lt;/h4&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line">export default &#123;</div><div class="line">  mounted() &#123;</div><div class="line">    // console.log(this.$store.commit('change2'))</div><div class="line">  &#125;,</div><div class="line">  computed: &#123;</div><div class="line">    info: function() &#123;</div><div class="line">      return this.$store.state.tab2.name;</div><div class="line">    &#125;,</div><div class="line">    newInfo()&#123;</div><div class="line">        return this.$store.getters.name;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">    change() &#123;</div><div class="line">        this.$store.commit('change2')</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;style lang="" scoped&gt;</div><div class="line"></div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+<p>这个例子里主要是看怎么在页面中调用模块中的stated等。</p>
+<p>首先说state，这个很简单，在页面中这样写就行：</p>
+<pre><code>this.$store.steta.tab2(模块名).name
+</code></pre><p>在本页面的mounted中console一下$store是这样的：</p>
+<p><img src="media/15111691688351.jpg" alt=""></p>
+<p>可以看到模块中的stete加了一层嵌套在state中的。</p>
+<p>至于<code>action</code>,<code>mutation</code>,<code>getter</code>，和一般的使用方法一样，没有任何区别。</p>
+<p>还有就是，在getter和action中，可以通过rootState获得根结构的state，mutation中没有此方法。</p>
+
+      
+    </div>
+
+    <div>    
+       
+       
+          <ul class="post-copyright">
+            <li class="post-copyright-author">
+                <strong>本文作者：</strong>JaneSu
+            </li>
+            <li class="post-copyright-link">
+              <strong>本文链接：</strong>
+              <a href="/2017/11/20/用一个简单的例子弄懂vuex和模块化/" title="用一个简单的例子弄懂vuex和模块化">2017/11/20/用一个简单的例子弄懂vuex和模块化/</a>
+            </li>
+            <li class="post-copyright-license">
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0 CN</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/31/underscore源码解读之debounce/" rel="next" title="underscore源码解读之debounce">
+                <i class="fa fa-chevron-left"></i> underscore源码解读之debounce
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JaneSu" />
+          <p class="site-author-name" itemprop="name">JaneSu</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vuex的模块化"><span class="nav-number">1.</span> <span class="nav-text">vuex的模块化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#…mapGetters和…mapActions"><span class="nav-number">2.</span> <span class="nav-text">…mapGetters和…mapActions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mudule"><span class="nav-number">3.</span> <span class="nav-text">mudule</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JaneSu</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div>本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://janesu.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://janesu.github.io/2017/11/20/用一个简单的例子弄懂vuex和模块化/';
+          this.page.identifier = '2017/11/20/用一个简单的例子弄懂vuex和模块化/';
+          this.page.title = '用一个简单的例子弄懂vuex和模块化';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://janesu.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
